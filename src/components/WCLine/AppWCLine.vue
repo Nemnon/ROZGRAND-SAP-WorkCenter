@@ -53,6 +53,10 @@ export default {
       document.title = wc.name + ' | SAP WC'
     })
 
+    wcLine.onWCJournalReceived((journal) => {
+      store.commit('wc/setJournal', journal)
+    })
+
     onMounted(() => {
       wcLine.init(el_timeline, el_graph, el_gauge, el_speed)
     })

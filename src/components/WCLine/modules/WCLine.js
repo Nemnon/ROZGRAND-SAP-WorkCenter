@@ -1,5 +1,5 @@
 import axios from '@/api/axios'
-import { getDateTime } from '@/common/utilites'
+import { copyObj, getDateTime } from '@/common/utilites'
 import { ERR_SERVER_ERROR, ERR_WC_GUID } from '@/common/Errors'
 import { GraphModule } from '@/components/WCLine/modules/Graph.module'
 import { TimeLineModule } from '@/components/WCLine/modules/TimeLine.module'
@@ -16,6 +16,7 @@ export class WCLine {
   endTime = new Date()
   onErrorHandler = null
   onWCInfoReceivedHandler = null
+  onWCJournalReceivedHandler = null
   destroyed = false
 
   constructor(wcGuid) {
@@ -40,6 +41,9 @@ export class WCLine {
   onWCInfoReceived(callback) {
     this.onWCInfoReceivedHandler = callback
   }
+  onWCJournalReceived(callback) {
+    this.onWCJournalReceivedHandler = callback
+  }
 
   _error(code, msg) {
     if (this.onErrorHandler) {
@@ -55,12 +59,15 @@ export class WCLine {
       const { data } = await axios.get(`api/wc/${this.wcGuid}`)
       if (data.length > 0) {
         if (this.onWCInfoReceivedHandler) {
-          this.onWCInfoReceivedHandler(data[0])
+          this.onWCInfoReceivedHandler(copyObj(data[0]))
         }
         return data[0]
       }
     } catch (e) {
-      this._error(ERR_SERVER_ERROR, e.response?.data?.message || e.message)
+      this._error(
+        ERR_SERVER_ERROR,
+        e.response?.data?.message || e.response?.data?.error || e.message
+      )
     }
     return false
   }
@@ -81,10 +88,16 @@ export class WCLine {
           this._workTimeChanged()
         }
         this.wcJournalData = data
+        if (this.onWCJournalReceivedHandler) {
+          this.onWCJournalReceivedHandler(copyObj(data))
+        }
         return true
       }
     } catch (e) {
-      this._error(ERR_SERVER_ERROR, e.response?.data?.message || e.message)
+      this._error(
+        ERR_SERVER_ERROR,
+        e.response?.data?.message || e.response?.data?.error || e.message
+      )
     }
     this.wcJournalData = null
     return false
@@ -106,7 +119,10 @@ export class WCLine {
         return true
       }
     } catch (e) {
-      this._error(ERR_SERVER_ERROR, e.response?.data?.message || e.message)
+      this._error(
+        ERR_SERVER_ERROR,
+        e.response?.data?.message || e.response?.data?.error || e.message
+      )
     }
     this.wcGraphData = null
     return false

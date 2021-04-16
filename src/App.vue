@@ -3,7 +3,9 @@
     <div class="app__header">
       <app-top-info-panel></app-top-info-panel>
     </div>
-    <div class="app__main">main</div>
+    <div class="app__main">
+      <app-main-panel></app-main-panel>
+    </div>
     <div class="app__footer">footer</div>
   </div>
   <app-popup-messages></app-popup-messages>
@@ -13,9 +15,10 @@
 import AppTopInfoPanel from '@/components/TopInfoPanel/AppTopInfoPanel'
 import AppPopupMessages from '@/components/PopupMessages/AppPopupMessages'
 import { onMounted } from 'vue'
+import AppMainPanel from '@/components/MainPanel/AppMainPanel'
 export default {
   name: 'App',
-  components: { AppPopupMessages, AppTopInfoPanel },
+  components: { AppMainPanel, AppPopupMessages, AppTopInfoPanel },
   setup() {
     onMounted(() => {})
   },
