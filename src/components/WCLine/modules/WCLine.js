@@ -1,8 +1,8 @@
-import { TimeLineModule } from '@/components/WCLine/modules/TimeLine.module'
-import { GraphModule } from '@/components/WCLine/modules/Graph.module'
 import axios from '@/api/axios'
 import { getDateTime } from '@/common/utilites'
 import { ERR_SERVER_ERROR, ERR_WC_GUID } from '@/common/Errors'
+import { GraphModule } from '@/components/WCLine/modules/Graph.module'
+import { TimeLineModule } from '@/components/WCLine/modules/TimeLine.module'
 
 export class WCLine {
   WC = null
@@ -15,6 +15,7 @@ export class WCLine {
   startTime = new Date()
   endTime = new Date()
   onErrorHandler = null
+  onWCInfoReceivedHandler = null
   destroyed = false
 
   constructor(wcGuid) {
@@ -36,6 +37,10 @@ export class WCLine {
     this.onErrorHandler = callback
   }
 
+  onWCInfoReceived(callback) {
+    this.onWCInfoReceivedHandler = callback
+  }
+
   _error(code, msg) {
     if (this.onErrorHandler) {
       this.onErrorHandler(code, msg)
@@ -49,6 +54,9 @@ export class WCLine {
     try {
       const { data } = await axios.get(`api/wc/${this.wcGuid}`)
       if (data.length > 0) {
+        if (this.onWCInfoReceivedHandler) {
+          this.onWCInfoReceivedHandler(data[0])
+        }
         return data[0]
       }
     } catch (e) {

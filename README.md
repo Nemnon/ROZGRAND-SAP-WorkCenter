@@ -1,4 +1,4 @@
-# wc-fe-2
+# **Rozgrand SAP WorkCenter**
 
 ## Project setup
 ```

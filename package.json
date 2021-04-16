@@ -1,13 +1,10 @@
 {
-  "name": "wc-fe-2",
+  "name": "rozgrand-sap-wc",
   "version": "1.0.0",
-  "private": true,
-  "author": "",
+  "author": "nemnon@gmail.com",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vue-cli-service build"
   },
   "main": "index.js",
   "dependencies": {

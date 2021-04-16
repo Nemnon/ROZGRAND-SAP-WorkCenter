@@ -49,6 +49,10 @@ export default {
       })
     })
 
+    wcLine.onWCInfoReceived((wc) => {
+      document.title = wc.name + ' | SAP WC'
+    })
+
     onMounted(() => {
       wcLine.init(el_timeline, el_graph, el_gauge, el_speed)
     })
