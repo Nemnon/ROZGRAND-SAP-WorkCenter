@@ -21,9 +21,9 @@
 
 <script>
 import { onMounted, onUnmounted, ref } from 'vue'
-import { WCLine } from '@/components/WCLine/modules/WCLine'
 import { ErrorMessage } from '@/common/Errors'
-import { useStore } from 'vuex'
+import usePopupMessages from '@/use/PopupMessages/usePopupMessages'
+import useWCLineAdapter from '@/components/WCLine/modules/useWCLineAdapter'
 
 export default {
   props: {
@@ -33,15 +33,16 @@ export default {
     },
   },
   setup(props) {
-    const store = useStore()
+    const { newMessage } = usePopupMessages()
+    const { onError, destroy, init } = useWCLineAdapter(props.workCenterGuid)
+
     const el_timeline = ref(null)
     const el_gauge = ref(null)
     const el_graph = ref(null)
     const el_speed = ref(null)
-    const wcLine = new WCLine(props.workCenterGuid)
 
-    wcLine.onError((code, msg = '') => {
-      store.dispatch('messages/newMessage', {
+    onError(({ code, msg = '' }) => {
+      newMessage({
         type: 'danger',
         caption: ErrorMessage(code),
         text: msg,
@@ -49,20 +50,12 @@ export default {
       })
     })
 
-    wcLine.onWCInfoReceived((wc) => {
-      document.title = wc.name + ' | SAP WC'
-    })
-
-    wcLine.onWCJournalReceived((journal) => {
-      store.commit('wc/setJournal', journal)
-    })
-
     onMounted(() => {
-      wcLine.init(el_timeline, el_graph, el_gauge, el_speed)
+      init(el_timeline, el_graph, el_gauge, el_speed)
     })
 
     onUnmounted(() => {
-      wcLine.destroy()
+      destroy()
     })
 
     return {

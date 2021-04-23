@@ -15,19 +15,17 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
+import usePopupMessages from '@/use/PopupMessages/usePopupMessages'
 
 export default {
   name: 'AppPopupMessages',
   setup() {
-    const store = useStore()
-    const messages = computed(() => {
-      return store.getters['messages/all']
-    })
+    const { messages, deleteMessage } = usePopupMessages()
+
     const dismissMsg = (id) => {
-      store.commit('messages/deleteMessage', id)
+      deleteMessage(id)
     }
+
     return { messages, dismissMsg }
   },
 }

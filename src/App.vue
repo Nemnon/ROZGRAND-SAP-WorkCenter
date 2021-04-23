@@ -13,15 +13,12 @@
 
 <script>
 import AppTopInfoPanel from '@/components/TopInfoPanel/AppTopInfoPanel'
-import AppPopupMessages from '@/components/PopupMessages/AppPopupMessages'
-import { onMounted } from 'vue'
+import AppPopupMessages from '@/use/PopupMessages/AppPopupMessages'
 import AppMainPanel from '@/components/MainPanel/AppMainPanel'
 export default {
   name: 'App',
   components: { AppMainPanel, AppPopupMessages, AppTopInfoPanel },
-  setup() {
-    onMounted(() => {})
-  },
+  setup() {},
 }
 </script>
 
@@ -33,9 +30,6 @@ export default {
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-}
-
-#app {
 }
 
 .app {
@@ -51,6 +45,7 @@ body {
   &__main {
     flex: 1 1 auto;
     position: relative;
+    min-height: 0;
   }
   &__footer {
     margin-top: 5px;

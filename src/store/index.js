@@ -1,10 +1,15 @@
 import { createStore } from 'vuex'
-import messages from './modules/messages.module'
-import wc from './modules/wc.module'
 
 export default createStore({
-  state() {},
+  state() {
+    return {
+      wcGuid: new URL(window.location.href).searchParams.get('guid'),
+    }
+  },
   mutations: {},
   actions: {},
-  modules: { messages, wc },
+  getters: {
+    wcGuid: (state) => state.wcGuid,
+  },
+  modules: {},
 })

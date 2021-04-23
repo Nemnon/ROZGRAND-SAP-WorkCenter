@@ -12,21 +12,23 @@
           </th>
         </tr>
       </thead>
-      <tr
-        v-for="item of data"
-        :key="item[rowKey]"
-        :class="{ selected: selectedRowKey === item[rowKey], ...rowClass(item) }"
-      >
-        <td
-          v-for="field of fields"
-          :key="field.id"
-          :style="{ 'white-space': field.nowrap ? 'pre' : '' }"
-          @click="handleRowClick(item, field, $event)"
-          @dblclick="handleRowDblClick(item, field, $event)"
+      <tbody>
+        <tr
+          v-for="item of data"
+          :key="item[rowKey]"
+          :class="{ selected: selectedRowKey === item[rowKey], ...rowClass(item) }"
         >
-          {{ item[field.name] }}
-        </td>
-      </tr>
+          <td
+            v-for="field of fields"
+            :key="field.id"
+            :style="{ 'white-space': field.nowrap ? 'pre' : '' }"
+            @click="handleRowClick(item, field, $event)"
+            @dblclick="handleRowDblClick(item, field, $event)"
+          >
+            {{ item[field.name] }}
+          </td>
+        </tr>
+      </tbody>
     </table>
     <div class="mtable__wrapper__placeholder" v-if="data.length === 0">
       {{ placeholder }}
@@ -116,7 +118,7 @@ $selected-color: #000000;
       border-bottom: 1px dotted #000000;
     }
     & tbody tr:nth-child(even) {
-      background-color: #f3f3f34f;
+      background-color: #00000014;
     }
     & th {
       position: sticky;
@@ -133,7 +135,7 @@ $selected-color: #000000;
       cursor: pointer;
       padding: 3px;
       overflow: hidden;
-      word-break: break-all;
+      //word-break: break-all;
       position: relative;
     }
     & .selected {

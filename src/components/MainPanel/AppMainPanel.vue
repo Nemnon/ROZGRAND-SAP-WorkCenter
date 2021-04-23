@@ -5,13 +5,21 @@
 
 <script>
 import AppMTable from '@/components/MTable/AppMTable'
-import { computed } from 'vue'
+import { ref } from 'vue'
+import useWorkCenter from '@/use/WorkCenter/useWorkCenter'
 import { useStore } from 'vuex'
 export default {
   name: 'AppMainPanel',
   components: { AppMTable },
   setup() {
+    const data = ref([])
     const store = useStore()
+    const { onJournalList } = useWorkCenter(store.getters['wcGuid'])
+
+    onJournalList((d) => {
+      data.value = d
+    })
+
     const dataFields = [
       { id: 1, name: 'event', label: '', width: '30px' },
       { id: 2, name: 'dstart', label: 'Дата', width: '160px' },
@@ -19,8 +27,6 @@ export default {
       { id: 4, name: 'text_event', label: 'Событие', width: '150px' },
       { id: 5, name: 'comment', label: 'Комментарий', width: '120px' },
     ]
-
-    const data = computed(() => store.getters['wc/journal'])
 
     return { data, dataFields }
   },

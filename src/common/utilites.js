@@ -9,5 +9,8 @@ export function RndID() {
 }
 
 export function copyObj(obj) {
+  if (!obj) {
+    return undefined
+  }
   return JSON.parse(JSON.stringify(obj))
 }
